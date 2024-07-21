@@ -1,0 +1,22 @@
+{
+  "name": "snake-3d",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "cname": "cp CNAME dist/",
+    "build": "tsc && vite build && npm run cname",
+    "deploy": "npx surge dist",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@types/three": "^0.166.0",
+    "sass": "^1.77.8",
+    "typescript": "^5.2.2",
+    "vite": "^5.3.4"
+  },
+  "dependencies": {
+    "three": "^0.166.1"
+  }
+}
