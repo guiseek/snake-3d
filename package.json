@@ -5,9 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "cname": "cp CNAME dist/",
-    "build": "tsc && vite build && npm run cname",
-    "deploy": "npx surge dist",
+    "build": "tsc && vite build --base snake-3d",
     "preview": "vite preview"
   },
   "devDependencies": {
@@ -17,6 +15,7 @@
     "vite": "^5.3.4"
   },
   "dependencies": {
+    "@websqnl/di": "^0.0.3",
     "three": "^0.166.1"
   }
 }

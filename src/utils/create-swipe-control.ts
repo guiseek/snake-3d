@@ -9,25 +9,25 @@ export const createSwipeControl = () => {
     left: new Set<Callback>(),
   };
 
-  const handleDispatch = (fn: Callback) => {
-    if (fn.predicate) {
-      if (fn.predicate()) fn();
-    } else {
-      fn();
-    }
+  const handleDispatch = (callback: Callback) => {
+    if (callback.predicate) {
+      if (callback.predicate()) {
+        callback();
+      }
+    } else callback();
   };
 
   let touchStartX = 0;
   let touchStartY = 0;
 
-  addEvent("touchstart", (event) => {
-    touchStartX = event.touches[0].clientX;
-    touchStartY = event.touches[0].clientY;
+  addEvent("touchstart", ({ touches }) => {
+    touchStartX = touches[0].clientX;
+    touchStartY = touches[0].clientY;
   });
 
-  addEvent("touchmove", (event) => {
-    const touchEndX = event.touches[0].clientX;
-    const touchEndY = event.touches[0].clientY;
+  addEvent("touchmove", ({ touches }) => {
+    const touchEndX = touches[0].clientX;
+    const touchEndY = touches[0].clientY;
 
     const diffX = touchEndX - touchStartX;
     const diffY = touchEndY - touchStartY;
@@ -60,14 +60,14 @@ export const createSwipeControl = () => {
     touchStartY = touchEndY;
   });
 
-  const on = <D extends Direction>(
-    direction: D,
-    fn: Callback,
+  const on = (
+    direction: Direction,
+    callback: Callback,
     predicate?: Predicate
   ) => {
-    fn.predicate = predicate;
-    listeners[direction].add(fn);
-    return { off: () => listeners[direction].delete(fn) };
+    callback.predicate = predicate;
+    listeners[direction].add(callback);
+    return { off: () => listeners[direction].delete(callback) };
   };
 
   return { on };

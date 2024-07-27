@@ -1,12 +1,13 @@
-import { Callback, Direction, Predicate } from "../types";
+import { Callback, ControlName, Predicate } from "../types";
 import { addEvent } from "./add-event";
 
 export const createKeyboardControl = () => {
-  const keys = {
+  const controls = {
     up: ["ArrowUp", "KeyW"],
     right: ["ArrowRight", "KeyD"],
     down: ["ArrowDown", "KeyS"],
     left: ["ArrowLeft", "KeyA"],
+    pause: ["KeyP"],
   };
 
   const listeners = {
@@ -14,47 +15,51 @@ export const createKeyboardControl = () => {
     right: new Set<Callback>(),
     down: new Set<Callback>(),
     left: new Set<Callback>(),
+    pause: new Set<Callback>(),
   };
 
-  const handleDispatch = (fn: Callback) => {
-    if (fn.predicate) {
-      if (fn.predicate()) fn();
-    } else {
-      fn();
-    }
+  const handleDispatch = (callback: Callback) => {
+    if (callback.predicate) {
+      if (callback.predicate()) callback();
+    } else callback();
   };
 
   addEvent("keydown", (ev) => {
-    if (keys.up.includes(ev.code)) {
+    if (controls.up.includes(ev.code)) {
       for (const fn of listeners.up) {
         handleDispatch(fn);
       }
     }
-    if (keys.down.includes(ev.code)) {
+    if (controls.down.includes(ev.code)) {
       for (const fn of listeners.down) {
         handleDispatch(fn);
       }
     }
-    if (keys.right.includes(ev.code)) {
+    if (controls.right.includes(ev.code)) {
       for (const fn of listeners.right) {
         handleDispatch(fn);
       }
     }
-    if (keys.left.includes(ev.code)) {
+    if (controls.left.includes(ev.code)) {
       for (const fn of listeners.left) {
+        handleDispatch(fn);
+      }
+    }
+    if (controls.pause.includes(ev.code)) {
+      for (const fn of listeners.pause) {
         handleDispatch(fn);
       }
     }
   });
 
-  const on = <D extends Direction>(
-    direction: D,
-    fn: Callback,
+  const on = (
+    control: ControlName,
+    callback: Callback,
     predicate?: Predicate
   ) => {
-    fn.predicate = predicate;
-    listeners[direction].add(fn);
-    return { off: () => listeners[direction].delete(fn) };
+    callback.predicate = predicate;
+    listeners[control].add(callback);
+    return { off: () => listeners[control].delete(callback) };
   };
 
   return { on };
