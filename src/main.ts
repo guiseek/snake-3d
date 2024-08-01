@@ -126,31 +126,6 @@ for (let x = -config.grid / 2; x <= config.grid / 2; x++) {
   }
 }
 
-// for (let i = -config.grid / 2; i <= config.grid / 2; i++) {
-//   scene.add(
-//     createWall(config.cube, 0x161b22, {
-//       x: i * config.step,
-//       y: (config.grid / 2) * config.step,
-//       z: 0,
-//     }),
-//     createWall(config.cube, 0x161b22, {
-//       x: i * config.step,
-//       y: -(config.grid / 2) * config.step,
-//       z: 0,
-//     }),
-//     createWall(config.cube, 0x161b22, {
-//       x: (config.grid / 2) * config.step,
-//       y: i * config.step,
-//       z: 0,
-//     }),
-//     createWall(config.cube, 0x161b22, {
-//       x: -(config.grid / 2) * config.step,
-//       y: i * config.step,
-//       z: 0,
-//     })
-//   );
-// }
-
 const icon = create("img", { src: "get-fullscreen.svg" });
 const btn = create(
   "button",
